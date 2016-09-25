@@ -26,7 +26,7 @@ domain-needed
 bogus-priv
 <% else -%>
 #bogus-priv
-<% end -%>
+<% end %>
 
 # Uncomment these to enable DNSSEC validation and caching:
 # (Requires dnsmasq to be built with DNSSEC option.)
@@ -55,7 +55,7 @@ filterwin2k
 #resolv-file=
 <% else -%>
 resolv-file=<%= @resolv_file %>
-<% end %>
+<% end -%>
 
 # By  default,  dnsmasq  will  send queries to any of the upstream
 # servers it knows about and tries to favour servers to are  known
@@ -107,7 +107,7 @@ server=<%= server_ptr %>
 
 # Add domains which you want to force to an IP address here.
 # The example below send any host in double-click.net to a local
-# webserver.
+# web-server.
 #address=/double-click.net/127.0.0.1
 
 # --address (and --server) work with IPv6 addresses too.
@@ -233,11 +233,11 @@ no-hosts
 #dhcp-range=1234::2, 1234::500, 64, 12h
 
 # Do Router Advertisements, BUT NOT DHCP for this subnet.
-#dhcp-range=1234::, ra-only 
+#dhcp-range=1234::, ra-only
 
 # Do Router Advertisements, BUT NOT DHCP for this subnet, also try and
-# add names to the DNS for the IPv6 address of SLAAC-configured dual-stack 
-# hosts. Use the DHCPv4 lease to derive the name, network segment and 
+# add names to the DNS for the IPv6 address of SLAAC-configured dual-stack
+# hosts. Use the DHCPv4 lease to derive the name, network segment and
 # MAC address and assume that the host will also have an
 # IPv6 address calculated using the SLAAC alogrithm.
 #dhcp-range=1234::, ra-names
@@ -260,9 +260,9 @@ no-hosts
 #dhcp-range=1234::, ra-stateless, ra-names
 
 # Do router advertisements for all subnets where we're doing DHCPv6
-# Unless overriden by ra-stateless, ra-names, et al, the router 
+# Unless overriden by ra-stateless, ra-names, et al, the router
 # advertisements will have the M and O bits set, so that the clients
-# get addresses and configuration from DHCPv6, and the A bit reset, so the 
+# get addresses and configuration from DHCPv6, and the A bit reset, so the
 # clients don't use SLAAC addresses.
 #enable-ra
 
@@ -328,11 +328,11 @@ no-hosts
 # any machine with Ethernet address starting 11:22:33:
 #dhcp-host=11:22:33:*:*:*,set:red
 
-# Give a fixed IPv6 address and name to client with 
+# Give a fixed IPv6 address and name to client with
 # DUID 00:01:00:01:16:d2:83:fc:92:d4:19:e2:d8:b2
 # Note the MAC addresses CANNOT be used to identify DHCPv6 clients.
 # Note also the they [] around the IPv6 address are obilgatory.
-#dhcp-host=id:00:01:00:01:16:d2:83:fc:92:d4:19:e2:d8:b2, fred, [1234::5] 
+#dhcp-host=id:00:01:00:01:16:d2:83:fc:92:d4:19:e2:d8:b2, fred, [1234::5]
 
 # Ignore any clients which are not specified in dhcp-host lines
 # or /etc/ethers. Equivalent to ISC "deny unknown-clients".
@@ -353,7 +353,7 @@ no-hosts
 #dhcp-mac=set:red,00:60:8C:*:*:*
 
 # If this line is uncommented, dnsmasq will read /etc/ethers and act
-# on the ethernet-address/IP pairs found there just as if they had
+# on the Ethernet-address/IP pairs found there just as if they had
 # been given as --dhcp-host options. Useful if you keep
 # MAC-address/host mappings there for other purposes.
 #read-ethers
@@ -388,7 +388,7 @@ no-hosts
 # Send DHCPv6 option. Note [] around IPv6 addresses.
 #dhcp-option=option6:dns-server,[1234::77],[1234::88]
 
-# Send DHCPv6 option for namservers as the machine running 
+# Send DHCPv6 option for namservers as the machine running
 # dnsmasq and another.
 #dhcp-option=option6:dns-server,[::],[1234::88]
 
@@ -593,7 +593,11 @@ cache-size=<%= @cache_size %>
 <% end -%>
 
 # If you want to disable negative caching, uncomment this.
+<% if @no_negcache -%>
+no-negcache
+<% else -%>
 #no-negcache
+<% end -%>
 
 # Normally responses which come from /etc/hosts and the DHCP lease
 # file have Time-To-Live set as zero, which conventionally means
@@ -686,14 +690,28 @@ cache-size=<%= @cache_size %>
 
 # For debugging purposes, log each DNS query as it passes through
 # dnsmasq.
+<% if @log_queries -%>
+log-queries
+<% else -%>
 #log-queries
+<% end -%>
+
+# Set the facility to which dnsmasq will send syslog entries, this defaults
+# to DAEMON, and to LOCAL0 when debug mode is in operation. If the facility
+# given contains at least one '/' character, it is taken to be a filename,
+# and dnsmasq logs to the given file, instead of syslog. If the facility is
+# '-' then dnsmasq logs to stderr.
+<% if @log_facility -%>
+log-facility=<%= @log_facility %>
+<% else -%>
+#log-facility=DAEMON.LOCAL0
+<% end -%>
 
 # Log lots of extra information about DHCP transactions.
 #log-dhcp
 
 # Include another lot of configuration options.
 #conf-file=/etc/dnsmasq.more.conf
-#conf-dir=/etc/dnsmasq.d
 
 # Include all the files in a directory except those ending in .bak
 #conf-dir=/etc/dnsmasq.d,.bak
