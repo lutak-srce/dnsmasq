@@ -4,23 +4,25 @@
 # This modules installs and manages dnsmasq
 #
 class dnsmasq (
-  $resolv_file      = '',
-  $strict_order     = false,
-  $port             = false,
-  $bogus_priv       = true,
-  $no_resolv        = false,
-  $no_poll          = false,
-  $no_hosts         = false,
-  $servers          = [],
-  $servers_ptr      = [],
-  $cache_size       = undef,
-  $no_negcache      = false,
-  $log_queries      = false,
-  $log_facility     = false,
-  $bind_interfaces  = false,
-  $interfaces       = [ 'lo' ],
-  $listen_addresses = [ '127.0.0.1' ],
-  $maxopenfiles     = undef,
+  $template_conf      = 'dnsmasq/dnsmasq.conf.erb',
+  $template_sysconfig = 'dnsmasq/dnsmasq.sysconfig.erb',
+  $resolv_file        = '',
+  $strict_order       = false,
+  $port               = false,
+  $bogus_priv         = true,
+  $no_resolv          = false,
+  $no_poll            = false,
+  $no_hosts           = false,
+  $servers            = [],
+  $servers_ptr        = [],
+  $cache_size         = undef,
+  $no_negcache        = false,
+  $log_queries        = false,
+  $log_facility       = false,
+  $bind_interfaces    = false,
+  $interfaces         = [ 'lo' ],
+  $listen_addresses   = [ '127.0.0.1' ],
+  $maxopenfiles       = undef,
 ) {
 
   # if servers are specified, apply this class before
@@ -41,13 +43,13 @@ class dnsmasq (
   }
 
   file { '/etc/dnsmasq.conf':
-    content => template('dnsmasq/dnsmasq.conf.erb'),
+    content => template($template_conf),
     require => Package['dnsmasq'],
     notify  => Service['dnsmasq'],
   }
 
   file { '/etc/sysconfig/dnsmasq':
-    content => template('dnsmasq/dnsmasq.sysconfig.erb'),
+    content => template($template_sysconfig),
     require => Package['dnsmasq'],
     notify  => Service['dnsmasq'],
   }
