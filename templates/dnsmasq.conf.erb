@@ -139,6 +139,13 @@ group=<%= @group %>
 #group=
 <% end -%>
 
+# dnsmasq PID file
+<% if @pid_file -%>
+pid-file=<%= @pid_file %>
+<% else -%>
+#pid-file=
+<% end -%>
+
 # If you want dnsmasq to listen for DHCP and DNS requests only on
 # specified interfaces (and the loopback) give the name of the
 # interface (eg eth0) here.
