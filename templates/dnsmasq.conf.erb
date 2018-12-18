@@ -128,8 +128,23 @@ server=<%= server_ptr %>
 
 # If you want dnsmasq to change uid and gid to something other
 # than the default, edit the following lines.
+<% if @user -%>
+user=<%= @user %>
+<% else -%>
 #user=
+<% end -%>
+<% if @group -%>
+group=<%= @group %>
+<% else -%>
 #group=
+<% end -%>
+
+# dnsmasq PID file
+<% if @pid_file -%>
+pid-file=<%= @pid_file %>
+<% else -%>
+#pid-file=
+<% end -%>
 
 # If you want dnsmasq to listen for DHCP and DNS requests only on
 # specified interfaces (and the loopback) give the name of the
@@ -599,6 +614,20 @@ no-negcache
 #no-negcache
 <% end -%>
 
+# Minimum TTL for cached records
+<% if @min_cache_ttl -%>
+min-cache-ttl=<%= @min_cache_ttl %>
+<% else -%>
+#min-cache-ttl=
+<% end -%>
+
+# Maximum TTL for cached records
+<% if @max_cache_ttl -%>
+max-cache-ttl=<%= @max_cache_ttl %>
+<% else -%>
+#max-cache-ttl=
+<% end -%>
+
 # Normally responses which come from /etc/hosts and the DHCP lease
 # file have Time-To-Live set as zero, which conventionally means
 # do not cache further. If you are happy to trade lower load on the
@@ -612,6 +641,13 @@ no-negcache
 # this line. You can add similar lines to do the same for other
 # registries which have implemented wildcard A records.
 #bogus-nxdomain=64.94.110.11
+
+# DNS loop detection
+<% if @dns_loop_detect -%>
+dns-loop-detect
+<% else -%>
+#dns-loop-detect
+<% end -%>
 
 # If you want to fix up DNS results from upstream servers, use the
 # alias option. This only works for IPv4.
