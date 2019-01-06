@@ -29,6 +29,25 @@ group :development do
   gem "puppet-module-win-dev-r#{minor_version}",       require: false, platforms: [:mswin, :mingw, :x64_mingw]
 end
 
+group :system_tests do
+  gem 'rake', '>= 0.9.2'
+  gem 'rspec-puppet'
+  gem 'puppetlabs_spec_helper'
+  gem 'beaker', '>= 4.2.0', :require => false if RUBY_VERSION >= '2.3.0'
+  gem 'beaker', '<  3.0.0', :require => false if RUBY_VERSION < '2.3.0'
+  gem 'beaker-rspec', '>= 3.4', :require => false
+  gem 'serverspec'
+  gem 'beaker-hostgenerator', '>= 1.1.22',  :require => false
+  gem 'beaker-docker',                      :require => false
+  gem 'beaker-puppet',                      :require => false
+  gem 'beaker-puppet_install_helper',       :require => false
+  gem 'beaker-module_install_helper',       :require => false
+  gem 'rbnacl', '>= 4',                     :require => false if RUBY_VERSION >= '2.2.6'
+  gem 'rbnacl-libsodium',                   :require => false if RUBY_VERSION >= '2.2.6'
+  gem 'bcrypt_pbkdf',                       :require => false
+  gem 'beaker-puppet_install_helper'
+end
+
 puppet_version = ENV['PUPPET_GEM_VERSION']
 facter_version = ENV['FACTER_GEM_VERSION']
 hiera_version = ENV['HIERA_GEM_VERSION']
