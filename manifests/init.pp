@@ -12,6 +12,7 @@ class dnsmasq (
   $user               = undef,
   $group              = undef,
   $bogus_priv         = true,
+  $filterwin2k        = true,
   $no_resolv          = false,
   $no_poll            = false,
   $no_hosts           = false,
