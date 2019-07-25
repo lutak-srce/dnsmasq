@@ -55,6 +55,10 @@ class dnsmasq (
     notify  => Service['dnsmasq'],
   }
 
+  file { '/etc/sysconfig':
+    ensure => 'directory',
+  }
+
   file { '/etc/sysconfig/dnsmasq':
     content => template($template_sysconfig),
     require => Package['dnsmasq'],
