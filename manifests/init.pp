@@ -16,6 +16,7 @@ class dnsmasq (
   $no_resolv          = false,
   $no_poll            = false,
   $no_hosts           = false,
+  $addn_hosts         = [],
   $servers            = [],
   $servers_ptr        = [],
   $cache_size         = undef,

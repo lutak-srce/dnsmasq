@@ -143,13 +143,6 @@ group=<%= @group %>
 #group=
 <% end -%>
 
-# dnsmasq PID file
-<% if @pid_file -%>
-pid-file=<%= @pid_file %>
-<% else -%>
-#pid-file=
-<% end -%>
-
 # If you want dnsmasq to listen for DHCP and DNS requests only on
 # specified interfaces (and the loopback) give the name of the
 # interface (eg eth0) here.
@@ -197,7 +190,13 @@ no-hosts
 <% end -%>
 # or if you want it to read another file, as well as /etc/hosts, use
 # this.
+<% unless @addn_hosts.empty? -%>
+<% @addn_hosts.each do |addn_host| -%>
+addn-hosts=<%= addn_host %>
+<% end -%>
+<% else -%>
 #addn-hosts=/etc/banner_add_hosts
+<% end -%>
 
 # Set this (and domain: see below) if you want to have a domain
 # automatically added to simple names in a hosts-file.
@@ -665,11 +664,11 @@ max-cache-ttl=<%= @max_cache_ttl %>
 #bogus-nxdomain=64.94.110.11
 
 # DNS loop detection
-+<% if @dns_loop_detect -%>
-+dns-loop-detect
-+<% else -%>
-+#dns-loop-detect
-+<% end -%>
+<% if @dns_loop_detect -%>
+dns-loop-detect
+<% else -%>
+#dns-loop-detect
+<% end -%>
 
 # If you want to fix up DNS results from upstream servers, use the
 # alias option. This only works for IPv4.
